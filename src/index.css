@@ -1,0 +1,346 @@
+:root {
+    /* Fondos y Sombras */
+    --bg-oscuro: #07050f;
+    --bg-tarjeta: #120e25;
+
+    /* Gradiante Cósmicos */
+    --gradiente-mistico: linear-gradient(135deg, #2b1055 0%, #7597de 100%);
+    --gradiente-morado: linear-gradient(180deg, #181135 0%, #0c081d 100%);
+    
+    /* Tonos Dorados (Detalles y Énfasis) */
+    --dorado-principal: #dfb76c;
+    --dorado-brillante: #fff2cc;
+
+    /* Textos */
+    --texto-principal: #f4f4f6;
+    --texto-secundario: #a39fc1;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    background-color: var(--bg-signo-2, #07050f);
+    background-image: radial-gradient(circle at 50% 30%, var(--bg-signo-1, #1a123a) 0%, var(--bg-signo-2, #07050f) 70%);
+    color: var(--texto-principal);
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, Helvetica, sans-serif;
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-x: hidden;
+    transition: background 0.8s ease;
+}
+
+/* Estructura Semántica de la pagina */
+main {
+    text-align: center;
+    padding: 2.5rem;
+    max-width: 550px;
+    width: 90%;
+    background: var(--gradiente-morado);
+    border: 1px solid rgba(223, 183, 108, 0.15);
+    border-radius: 16px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5),
+                0 0 50px rgba(43, 16, 85, 0.3);
+    /* conectamos la animación nativa de CSS al contenedor principal*/
+    animation: aparecerContenedor 1s ease-out forwards;
+}
+
+.tarjeta-astral {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  padding: 2.5rem;
+  max-width: 550px;
+  width: 90%;
+  /* CAMBIO: El degradado del cuadro se oscurece según el signo activo */
+  background: linear-gradient(180deg, var(--bg-signo-1, #181135) 0%, var(--bg-signo-2, #0c081d) 100%);
+  border: 1px solid rgba(223, 183, 108, 0.15);
+  border-radius: 16px;
+  /* CAMBIO: La sombra proyecta un resplandor cósmico del color del signo activo */
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 
+              0 0 60px var(--destello-signo, rgba(43, 16, 85, 0.3));
+  animation: aparecerContenedor 1s ease-out forwards;
+  transition: background 0.8s ease, box-shadow 0.8s ease;
+}
+
+.svg-signo-fondo {
+  position: absolute;
+  width: 130px;
+  height: 130px;
+  top: -45px;
+  left: -95px;
+  z-index: 5;
+  /* CAMBIO: El fondo del escudo del círculo toma el tono base del signo */
+  background: var(--bg-signo-2, #110b29); 
+  border: 1px solid rgba(223, 183, 108, 0.3);
+  border-radius: 50%;
+  padding: 1rem;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6),
+              0 0 20px var(--destello-signo, rgba(223, 183, 108, 0.15));
+  animation: aparecerElemento 1s ease-out 0.2s forwards,
+             pulsoCosmico 3s ease-in-out 1.2s infinite alternate;
+  opacity: 0;
+  transition: background 0.8s ease;
+}
+
+/* Apuntamos al trazo interior del SVG */
+.trazo-signo {
+  /* Forzamos el origen de transformación al centro del trazo para la escala */
+  transform-origin: center center;
+  
+  /* CAMBIO: Aplicamos la animación de respiración infinita.
+     La duración de 5 segundos la hace lenta y sutil (mística).
+     Le damos un delay de 1.5s para que entre DESPUÉS de que aparezca la tarjeta.
+  */
+  animation: respiracionMistica 2s ease-in-out 1.5s infinite alternate;
+  opacity: 1; /* Valor base */
+}
+
+h1 {
+    font-size: 2.6rem;
+    color: var(--dorado-principal);
+    margin-bottom: 0.3rem;
+    letter-spacing: 1px;
+    text-shadow: 0 2px 10px rgba(223, 183, 108, 0.2);
+}
+
+h2 {
+    font-size: 1.3rem;
+    font-style: italic;
+    color: var(--texto-secundario);
+    margin-top: 0;
+    margin-bottom: 2rem;
+    font-weight: 400;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 2rem 0;
+    border-top: 1px solid rgba(163, 159, 193, 0,1);
+    border-bottom: 1px solid rgba(163, 159, 193, 0.1);
+    padding: 1.5rem 0;
+}
+
+li {
+    margin: 0.8rem 0;
+    font-size: 1.1rem;
+    color: var(--texto-principal);
+    /* Animación nativa con retraso para las listas */
+    animation: aparecerElemento 0.8s ease-out 0.4s forwards ;
+    opacity: 0;
+}
+
+strong {
+    color: var(--dorado-principal);
+    font-weight: 600;
+}
+
+h3 {
+    color: var(--dorado-brillante);
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    margin-bottom: 0.5rem;
+}
+
+p {
+    line-height: 1.7;
+    color: var(--texto-secundario);
+    font-size: 1.05rem;
+    /* Animación nativa con retraso para el texto de predicción */
+    animation: aparecerElemento 0.8s ease-out 0.7s forwards;
+    opacity: 0;
+}
+
+/* ==========================================================================
+   ANIMACIONES NATIVAS (Ultra optimizadas por GPU)
+   ========================================================================== */
+
+@keyframes aparecerContenedor {
+  from {
+    opacity: 0;
+    transform: translateY(30px); /* Movemos en el eje Y */
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes aparecerElemento {
+  from {
+    opacity: 0;
+    transform: scale(0.98); /* Escala sutil */
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes pulsoCosmico {
+  0% {
+    /* Estado inicial: Brillo sutil y opacidad base */
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6),
+                0 0 15px var(--destello-signo, rgba(223, 183, 108, 0.15));
+    filter: brightness(1);
+  }
+  100% {
+    /* Estado alto: El resplandor se expande y el icono se ilumina ligeramente */
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7),
+                0 0 35px var(--destello-signo, rgba(223, 183, 108, 0.35));
+    filter: brightness(1.2);
+  }
+}
+
+/* @keyframes para el efecto de shimmer/brillo interior */
+@keyframes respiracionMistica {
+  0% {
+    opacity: 0.8; /* Ligeramente opaco */
+    transform: scale(0.99); /* Un pelo más pequeño */
+    filter: brightness(1); /* Brillo normal */
+  }
+  100% {
+    opacity: 1; /* Opacidad total */
+    transform: scale(1); /* Tamaño real */
+    /* CAMBIO: Usamos filter: brightness() para simular que el elemento se ilumina por dentro
+       sin tocar el color base del trazo.
+    */
+    filter: brightness(1.3); /* Un toque extra de luz */
+  }
+}
+
+/* ==========================================================================
+   Ajustes de Flexibilidad (Modifica estas reglas en tu archivo actual)
+   ========================================================================== */
+
+main {
+  text-align: center;
+  padding: 2.5rem 2rem; /* Reducimos un poco el espacio interno lateral */
+  max-width: 550px;
+  width: 85%; /* Le damos un margen de respiro del 15% en total para los lados */
+  background: var(--gradiente-morado);
+  border: 1px solid rgba(223, 183, 108, 0.15);
+  border-radius: 16px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 
+              0 0 50px rgba(43, 16, 85, 0.3);
+  animation: aparecerContenedor 1s ease-out forwards;
+}
+
+/* ==========================================================================
+   MEDIA QUERY: Pantallas Medianas / Móviles (Menos de 600px de ancho)
+   ========================================================================== */
+@media (max-width: 600px) {
+  body {
+    padding: 1rem; /* Evita que el contenedor pegue arriba o abajo en pantallas bajas */
+  }
+
+  main {
+    padding: 2rem 1.5rem; /* Más espacio para el texto dentro del celular */
+    width: 90%;
+  }
+
+  h1 {
+    font-size: 2.2rem; /* Achicamos el título para que no se parta en dos renglones feos */
+  }
+
+  h2 {
+    font-size: 1.1rem;
+    margin-bottom: 1.5rem;
+  }
+
+  ul {
+    margin: 1.5rem 0;
+    padding: 1rem 0;
+  }
+
+  li {
+    font-size: 1rem; /* Texto de los datos un pelo más pequeño y legible */
+    margin: 0.6rem 0;
+  }
+
+  h3 {
+    font-size: 1.1rem;
+  }
+
+  p {
+    font-size: 0.95rem; /* La predicción se adapta al tamaño estándar de lectura móvil */
+    line-height: 1.6;
+  }
+}
+
+/* ==========================================================================
+   MEDIA QUERIES RESPONSIVAS (Móviles y Tablets)
+   ========================================================================== */
+@media (max-width: 768px) {
+    body {
+        padding-top: 6rem;
+    }
+
+    .tarjeta-astral {
+        padding: 4rem 1.5rem 2rem 1.5rem;
+        width: 90%;
+    }
+
+    .svg-signo-fondo {
+        width: 100px;
+        height: 100px;
+        padding: 0.8rem;
+        
+        /* Modificamos las coordenadas estáticas para la visualización móvil */
+        top: -50px;
+        left: 50%;
+        
+        /* Reemplazamos por el set de animaciones nativas de móvil */
+        animation: aparecerElementoMovil 1s ease-out 0.2s forwards,
+                   pulsoCosmicoMovil 3s ease-in-out 1.2s infinite alternate;
+    }
+
+    h1 { font-size: 2.2rem; }
+    h2 { font-size: 1.1rem; margin-bottom: 1.5rem; }
+    ul { margin: 1.5rem 0; padding: 1rem 0; }
+    li { font-size: 1rem; margin: 0.6rem 0; }
+    h3 { font-size: 1.1rem; }
+    p { font-size: 0.95rem; line-height: 1.6; }
+}
+
+@media (max-width: 375px) {
+    h1 { font-size: 1.8rem; }
+    .tarjeta-astral { padding: 3.5rem 1rem 1.5rem 1rem; }
+}
+
+/* ==========================================================================
+   ANIMACIONES EXCLUSIVAS PARA MÓVIL (Inyectan la traslación del centrado)
+   ========================================================================== */
+@keyframes aparecerElementoMovil {
+    from {
+        opacity: 0;
+        transform: translateX(-50%) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(-50%) scale(1);
+    }
+}
+
+@keyframes pulsoCosmicoMovil {
+    0% {
+        top: -50px;
+        left: 50%;
+        transform: translateX(-50%);
+        box-shadow: 0 8px 25px rgba(0, 0, 0, 0.6),
+                    0 0 15px var(--destello-signo, rgba(223, 183, 108, 0.15));
+        filter: brightness(1);
+    }
+    100% {
+        top: -50px;
+        left: 50%;
+        transform: translateX(-50%);
+        box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7),
+                    0 0 35px var(--destello-signo, rgba(223, 183, 108, 0.35));
+        filter: brightness(1.2);
+    }
+}
