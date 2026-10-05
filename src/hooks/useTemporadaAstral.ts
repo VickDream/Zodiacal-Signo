@@ -1,54 +1,55 @@
-import { useState, useEffect } from 'react';
-import { listaSignos } from '../data/signos';
-import type { SignoZodiacal, FechaAstrologica } from '../types/astral';
+// src/hooks/useTemporadaAstral.ts
+import { useEffect, useState } from 'react';
+import { signos } from '../data/signos';
+import type { Signo } from '../data/signos';
 
-// Función pura que evalúa si el día y mes de hoy caen dentro de un rango zodiacal
-const verificarRangoFecha = (
-  mesActual: number,
-  diaActual: number,
-  inicio: FechaAstrologica,
-  fin: FechaAstrologica
-): boolean => {
-  // Caso especial: El signo cruza el año nuevo (ej. Capricornio de Diciembre a Enero)
-  if (inicio.mes > fin.mes) {
-    return (
-      (mesActual === inicio.mes && diaActual >= inicio.dia) ||
-      (mesActual === fin.mes && diaActual <= fin.dia)
-    );
+
+const calcularSignoActual = (fecha: Date): Signo | null => {
+  const mes = fecha.getMonth() + 1;
+  const dia = fecha.getDate();
+
+  const signosArray = Object.values(signos);
+
+  for (const signo of signosArray) {
+    const { fechaInicio, fechaFin } = signo;
+
+    // Rango normal (ej. Aries: 21/3 al 19/4)
+    if (fechaInicio.mes <= fechaFin.mes) {
+      if (
+        (mes === fechaInicio.mes && dia >= fechaInicio.dia) ||
+        (mes === fechaFin.mes && dia <= fechaFin.dia) ||
+        (mes > fechaInicio.mes && mes < fechaFin.mes)
+      ) {
+        return signo;
+      }
+    }
+    // Rango que cruza año (ej. Capricornio: 22/12 al 19/1)
+    else {
+      if (
+        (mes === fechaInicio.mes && dia >= fechaInicio.dia) ||
+        (mes === fechaFin.mes && dia <= fechaFin.dia) ||
+        mes > fechaInicio.mes ||
+        mes < fechaFin.mes
+      ) {
+        return signo;
+      }
+    }
   }
 
-  // Caso estándar: El rango ocurre dentro del mismo mes
-  if (mesActual === inicio.mes && mesActual === fin.mes) {
-    return diaActual >= inicio.dia && diaActual <= fin.dia;
-  }
-
-  // Caso común: El rango cruza dos meses diferentes (ej. Aries de Marzo a Abril)
-  return (
-    (mesActual === inicio.mes && diaActual >= inicio.dia) ||
-    (mesActual === fin.mes && diaActual <= fin.dia)
-  );
+  return null;
 };
 
-// Exportación nombrada del Hook que tu componente PantallaAstral necesita
 export const useTemporadaAstral = () => {
-  const [signoActual, setSignoActual] = useState<SignoZodiacal | null>(null);
+  const [signoActual, setSignoActual] = useState<Signo | null>(null);
 
   useEffect(() => {
-    const calcularSignoActivo = (): void => {
-      const hoy = new Date();
-      const mes = hoy.getMonth() + 1; // En JavaScript Enero es 0, por eso sumamos 1
-      const dia = hoy.getDate();
+    const hoy = new Date();
+    const signo = calcularSignoActual(hoy);
 
-      // Buscamos en la base de datos el signo que cumpla la condición matemática de la fecha
-      const signoEncontrado = listaSignos.find((signo) =>
-        verificarRangoFecha(mes, dia, signo.fechaInicio, signo.fechaFin)
-      );
+    console.log('📅 Fecha actual:', hoy.toLocaleDateString());
+    console.log('✨ Signo calculado:', signo?.nombre);
 
-      // Si encuentra el signo lo asigna; si no, por seguridad asigna el primero de la lista
-      setSignoActual(signoEncontrado || listaSignos[0]);
-    };
-
-    calcularSignoActivo();
+    setSignoActual(signo);
   }, []);
 
   return { signoActual };

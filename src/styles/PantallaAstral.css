@@ -1,0 +1,479 @@
+/* src/styles/PantallaAstral.css */
+
+/* =========================================
+   CONTENEDOR PRINCIPAL
+   ========================================= */
+.escenario-astral {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: radial-gradient(circle at center, var(--bg-signo-1, #1a123a), var(--bg-signo-2, #07050f));
+  transition: background 1s ease-in-out;
+}
+
+/* =========================================
+   1. LADO IZQUIERDO: Selector de Signos
+   ========================================= */
+.panel-izquierdo {
+  position: absolute;
+  left: 2rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.lista-signos {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.btn-signo {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.6);
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  cursor: pointer;
+  text-align: left;
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(5px);
+}
+
+.btn-signo:hover {
+  background: rgba(255, 255, 255, 0.15);
+  color: #fff;
+}
+
+.btn-signo.activo {
+  background: var(--dorado-principal);
+  color: #000;
+  border-color: var(--dorado-principal);
+  font-weight: bold;
+  box-shadow: 0 0 15px var(--destello-signo);
+}
+
+.btn-toggle-mobile {
+  display: none;
+}
+
+/* =========================================
+   2. CENTRO: Tarjeta Astral (Glassmorphism)
+   ========================================= */
+.tarjeta-astral {
+  position: relative;
+  z-index: 5;
+  width: 100%;
+  max-width: 500px;
+  padding: 3rem;
+  border-radius: 24px;
+  background: rgba(20, 20, 30, 0.25); 
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: none; 
+  box-shadow: none;
+  color: #fff;
+  text-align: center;
+  animation: aparecerContenedor 1s ease-out forwards;
+}
+
+.tarjeta-header h1 {
+  font-size: 2.5rem;
+  color: var(--dorado-principal);
+  margin-bottom: 0.5rem;
+  text-shadow: 0 0 20px rgba(223, 183, 108, 0.3);
+}
+
+.tarjeta-header h2 {
+  font-size: 1.1rem;
+  font-style: italic;
+  font-weight: 300;
+  color: rgba(255, 255, 255, 0.8);
+  margin-bottom: 2rem;
+}
+
+.tarjeta-detalles ul {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 2rem;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 1.5rem 0;
+}
+
+.tarjeta-detalles li {
+  margin-bottom: 0.8rem;
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.tarjeta-detalles li strong {
+  color: var(--dorado-principal);
+  margin-right: 5px;
+}
+
+.tarjeta-prediccion h3 {
+  font-size: 1.2rem;
+  color: var(--dorado-brillante);
+  margin-bottom: 0.5rem;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.tarjeta-prediccion p {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* =========================================
+   3. LADO DERECHO: Icono Gigante Giratorio
+   ========================================= */
+.panel-derecho {
+  position: absolute;
+  right: 2rem;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 3;
+  pointer-events: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.icono-giratorio {
+  width: 300px;
+  height: 300px;
+  opacity: 0.8;
+  filter: brightness(0) saturate(100%) invert(78%) sepia(35%) saturate(550%) hue-rotate(355deg) brightness(95%) contrast(90%) drop-shadow(0 0 30px var(--destello-signo));
+  animation: girarInfinito 30s linear infinite;
+}
+
+/* =========================================
+   ANIMACIONES BASE
+   ========================================= */
+@keyframes girarInfinito {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes girarInverso {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(-360deg); }
+}
+
+@keyframes aparecerContenedor {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* =========================================
+   4. PANTALLA DE CARGA (Mejorada)
+   ========================================= */
+.pantalla-cargando {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: radial-gradient(circle at center, #1a123a, #07050f);
+  z-index: 999;
+  animation: aparecerContenedor 0.5s ease-out forwards;
+  overflow: hidden;
+}
+
+/* Estrellas titilando */
+.estrellas-fondo {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.estrella {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--dorado-principal);
+  box-shadow: 0 0 10px var(--dorado-brillante);
+  opacity: 0;
+  animation: titilar 3s ease-in-out infinite;
+}
+
+@keyframes titilar {
+  0%, 100% { opacity: 0; transform: scale(0.5); }
+  50% { opacity: 0.8; transform: scale(1); }
+}
+
+/* Texto centrado con shimmer */
+.texto-cargando {
+  margin-top: 3rem;
+  font-size: 1.1rem;
+  font-style: italic;
+  letter-spacing: 2px;
+  text-align: center;
+  padding-left: 2px;
+  background: linear-gradient(
+    90deg,
+    rgba(223, 183, 108, 0.4) 0%,
+    rgba(223, 183, 108, 1) 50%,
+    rgba(223, 183, 108, 0.4) 100%
+  );
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shimmer 3s linear infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Spinner Cósmico */
+.spinner-cosmico {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.aura-cosmica {
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(223, 183, 108, 0.15) 0%,
+    rgba(223, 183, 108, 0.05) 40%,
+    transparent 70%
+  );
+  animation: respirar 3s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes respirar {
+  0%, 100% { transform: scale(0.9); opacity: 0.6; }
+  50% { transform: scale(1.1); opacity: 1; }
+}
+
+.anillo-exterior {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  border-top-color: var(--dorado-principal);
+  border-right-color: var(--dorado-principal);
+  animation: girarInfinito 2s linear infinite;
+  box-shadow: 0 0 20px rgba(223, 183, 108, 0.3);
+}
+
+.anillo-interior {
+  position: absolute;
+  width: 70%;
+  height: 70%;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  border-bottom-color: var(--dorado-brillante);
+  border-left-color: var(--dorado-brillante);
+  animation: girarInverso 1.5s linear infinite;
+  opacity: 0.7;
+}
+
+.punto-central {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--dorado-principal);
+  box-shadow: 0 0 25px var(--dorado-brillante), 0 0 50px rgba(223, 183, 108, 0.5);
+  animation: latidoCentral 1.5s ease-in-out infinite;
+}
+
+/* Partículas orbitando */
+.orbita {
+  position: absolute;
+  width: 140%;
+  height: 140%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  pointer-events: none;
+}
+
+.orbita-1 {
+  animation: girarInfinito 4s linear infinite;
+}
+
+.orbita-2 {
+  width: 170%;
+  height: 170%;
+  animation: girarInverso 6s linear infinite;
+}
+
+.particula {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--dorado-brillante);
+  box-shadow: 0 0 12px var(--dorado-brillante), 0 0 20px var(--dorado-principal);
+}
+
+.prediccion-cargando {
+  font-style: italic;
+  opacity: 0.6;
+  animation: pulsoCargando 1.5s ease-in-out infinite;
+}
+
+@keyframes pulsoCargando {
+  0%, 100% { opacity: 0.5; transform: scale(0.98); }
+  50% { opacity: 1; transform: scale(1); }
+}
+
+@keyframes latidoCentral {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 15px var(--dorado-brillante), 0 0 30px rgba(223, 183, 108, 0.5);
+  }
+  50% {
+    transform: scale(1.4);
+    box-shadow: 0 0 25px var(--dorado-brillante), 0 0 60px rgba(223, 183, 108, 0.5);
+  }
+}
+
+/* =========================================
+   5. RESPONSIVE (Mobile)
+   ========================================= */
+@media (max-width: 1024px) {
+  .escenario-astral {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    overflow: hidden;
+  }
+
+  .btn-toggle-mobile {
+    display: block;
+    position: fixed;
+    top: 1rem;
+    left: 1rem;
+    z-index: 200;
+    background: var(--dorado-principal);
+    color: #000;
+    border: none;
+    padding: 0.8rem 1.2rem;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+  }
+
+  .btn-toggle-mobile:active {
+    transform: scale(0.95);
+  }
+
+  .panel-izquierdo {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 240px;
+    height: 100vh;
+    padding: 4.5rem 1rem 1rem 1rem;
+    z-index: 150;
+    background: rgba(10, 10, 15, 0.98);
+    backdrop-filter: blur(15px);
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    transform: translateY(0) translateX(-100%);
+    border-right: 1px solid rgba(223, 183, 108, 0.2);
+  }
+
+  .panel-izquierdo.abierto {
+    transform: translateY(0) translateX(0);
+    box-shadow: 20px 0 50px rgba(0,0,0,0.8);
+  }
+
+  .lista-signos {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+    height: 100%;
+    overflow-y: auto;
+    padding-right: 5px;
+  }
+
+  .lista-signos::-webkit-scrollbar { width: 4px; }
+  .lista-signos::-webkit-scrollbar-thumb { 
+    background: var(--dorado-principal); 
+    border-radius: 4px; 
+  }
+
+  .panel-derecho {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    right: auto;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    z-index: 3;
+    pointer-events: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .icono-giratorio {
+    width: 350px;
+    height: 350px;
+    opacity: 0.15;
+    filter: brightness(0) saturate(100%) invert(78%) sepia(35%) saturate(550%) hue-rotate(355deg) brightness(95%) contrast(90%) drop-shadow(0 0 30px var(--destello-signo));
+    animation: girarInfinito 30s linear infinite;
+  }
+
+  .tarjeta-astral {
+    position: relative;
+    z-index: 5;
+    width: 100%;
+    max-width: 500px;
+    padding: 3rem 2rem;
+    background: rgba(20, 20, 30, 0.35);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    margin: 0;
+    border: none;
+    box-shadow: none;
+    border-radius: 24px;
+  }
+
+  .tarjeta-header h1 { font-size: 1.8rem; }
+  .tarjeta-header h2 { font-size: 1rem; margin-bottom: 1.5rem; }
+  .tarjeta-detalles li { font-size: 0.9rem; }
+  .tarjeta-prediccion p { font-size: 0.9rem; }
+}

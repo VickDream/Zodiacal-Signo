@@ -1,0 +1,15 @@
+{
+  "aries": {
+    "id": "aries",
+    "nombre": "Aries",
+    "fraseClave": "Yo soy",
+    "elemento": "Fuego",
+    "planetaRegente": "Marte",
+    "fechaInicio": { "dia": 21, "mes": 3 },
+    "fechaFin": { "dia": 19, "mes": 4 },
+    "prediccionBase": "Es momento de iniciar, de tomar la delantera.",
+    "colorFondo1": "#4a1a1a",
+    "colorFondo2": "#0a0505",
+    "colorDestello": "#ff6b6b"
+  }
+}
