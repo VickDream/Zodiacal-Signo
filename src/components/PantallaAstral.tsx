@@ -5,12 +5,16 @@ import React, { useState, useEffect } from 'react';
 import { DiccionarioIconos } from './IconosSignos';
 import { LluviaCosmica } from './LluviaCosmica';
 import { signos } from '../data/signos';
+import type { Signo } from '../data/signos';
 import '../styles/PantallaAstral.css';
 
 export const PantallaAstral: React.FC = () => {
   const { signoActual } = useTemporadaAstral();
   const [signoDePrueba, setSignoDePrueba] = useState<string>('');
   const [menuAbierto, setMenuAbierto] = useState<boolean>(false);
+
+  const [prevSigno, setPrevSigno] = useState<Signo | null>(null);
+  const [currSigno, setCurrSigno] = useState<Signo | null>(null);
 
   // ⬇️ TODOS los hooks van arriba, antes de cualquier return condicional
 
@@ -27,6 +31,13 @@ export const PantallaAstral: React.FC = () => {
   useEffect(() => {
     setMenuAbierto(false);
   }, [signoDePrueba]);
+
+  // Ajuste de estado durante el render: detecta el cambio de signo actual
+  const signoParaFondo = signoMostrado;
+  if (signoParaFondo && signoParaFondo.id !== currSigno?.id) {
+    setPrevSigno(currSigno);
+    setCurrSigno(signoParaFondo);
+  }
 
   // ⬇️ Return condicional DESPUÉS de todos los hooks
   if (!signoActual || !signoMostrado) {
@@ -64,6 +75,15 @@ export const PantallaAstral: React.FC = () => {
   return (
     <div className="escenario-astral" style={estiloDinamicoAltasPrestaciones}>
 
+      {/* Fondo animado para transición suave (crossfade) al cambiar de signo */}
+      <div
+        key={currSigno?.id ?? 'cargando'}
+        className="fondo-animado"
+        style={{
+          background: `radial-gradient(circle at center, ${prevSigno?.colorFondo1 ?? currSigno?.colorFondo1 ?? '#0a0505'}, ${prevSigno?.colorFondo2 ?? currSigno?.colorFondo2 ?? '#07050f'})`,
+        }}
+      />
+
       <LluviaCosmica IconoActual={rutaIconoActivo} />
 
       <div className="panel-derecho">
@@ -74,6 +94,9 @@ export const PantallaAstral: React.FC = () => {
         <section className="tarjeta-header">
           <h1>Temporada de {signoMostrado.nombre}</h1>
           <h2>"{signoMostrado.fraseClave}"</h2>
+          {signoDePrueba && (
+            <span className="badge-estado">✦ Explorando</span>
+          )}
         </section>
 
         <section className="tarjeta-detalles">
