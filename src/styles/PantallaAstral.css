@@ -53,6 +53,7 @@
 .btn-signo:hover {
   background: rgba(255, 255, 255, 0.15);
   color: #fff;
+  box-shadow: 0 0 12px var(--destello-signo);
 }
 
 .btn-signo.activo {
@@ -344,6 +345,39 @@
   font-style: italic;
   opacity: 0.6;
   animation: pulsoCargando 1.5s ease-in-out infinite;
+}
+
+/* Estado de error + interacción: botón de reintento */
+.contenedor-prediccion-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.prediccion-error {
+  font-style: italic;
+  opacity: 0.8;
+  line-height: 1.6;
+}
+
+.btn-reintentar {
+  margin-top: 0.5rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: var(--dorado-principal);
+  padding: 0.6rem 1.2rem;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  letter-spacing: 1px;
+  transition: all 0.3s ease;
+}
+
+.btn-reintentar:hover {
+  background: var(--dorado-principal);
+  color: #000;
+  box-shadow: 0 0 15px var(--destello-signo);
 }
 
 @keyframes pulsoCargando {

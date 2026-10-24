@@ -21,7 +21,7 @@ export const PantallaAstral: React.FC = () => {
   // si no, el signo actual según la fecha
   const signoMostrado = signoDePrueba ? signos[signoDePrueba] : signoActual;
 
-  const { texto: prediccionMensual, cargando: cargandoPrediccion } =
+  const { texto: prediccionMensual, cargando: cargandoPrediccion, error, reintentar } =
     usePrediccionMensual(idActivo, signoMostrado?.prediccionBase || '');
 
   useEffect(() => {
@@ -70,7 +70,7 @@ export const PantallaAstral: React.FC = () => {
         <img src={rutaIconoActivo} alt={idActivo} className="icono-giratorio" />
       </div>
 
-      <main className="tarjeta-astral">
+      <main key={idActivo} className="tarjeta-astral">
         <section className="tarjeta-header">
           <h1>Temporada de {signoMostrado.nombre}</h1>
           <h2>"{signoMostrado.fraseClave}"</h2>
@@ -91,6 +91,16 @@ export const PantallaAstral: React.FC = () => {
           <h3>Predicción del ciclo</h3>
           {cargandoPrediccion ? (
             <p className="prediccion-cargando">Consultando los astros...</p>
+          ) : error ? (
+            <div className="contenedor-prediccion-error">
+              <p className="prediccion-error">
+                Los astros están nublados... No pudimos consultar tu predicción ahora mismo.
+                Inténtalo de nuevo en un momento.
+              </p>
+              <button className="btn-reintentar" onClick={reintentar}>
+                ↻ Reintentar consulta
+              </button>
+            </div>
           ) : (
             <p>{prediccionMensual}</p>
           )}
